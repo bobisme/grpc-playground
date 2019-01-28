@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package echosvc;
+
+import "google/api/annotations.proto";
+
+message EchoMessage {
+ string value = 1;
+}
+
+message GreetingRequest {
+  string type = 1;
+  string name = 2;
+}
+
+message GreetingResponse {
+  string msg = 1;
+}
+
+service EchoService {
+  rpc Echo(EchoMessage) returns (EchoMessage) {
+    option (google.api.http) = {
+      post: "/v1/echo"
+      body: "*"
+    };
+  }
+
+  rpc Greet(GreetingRequest) returns (GreetingResponse) {
+    option (google.api.http) = {
+      get: "/v1/greet/{type}"
+    };
+  }
+}
